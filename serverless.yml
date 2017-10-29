@@ -10,6 +10,11 @@ provider:
 functions:
   tabulate:
     handler: handler.tabulate
+    events:
+      - http:
+          path: /
+          method: get
+          private: false
 
 package:
   exclude:
