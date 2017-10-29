@@ -5,6 +5,7 @@
     <title>Poll Results</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-fork-ribbon-css/0.2.0/gh-fork-ribbon.min.css" />
     <style>
       .dataframe.table { max-width: 250px;  }
     </style>
@@ -13,23 +14,26 @@
   <body>
     <div class="container">
       <h1>Results</h1>
-      {% if winners|length > 1 %}
-          <h2>Winners (tie)</h2>
-          {{ winners.index | join(', ') }}
+      {% if results.winners | length > 1 %}
+        <h2>Winners (tie)</h2>
+        {{ results.winners.index | join(', ') }}
       {% else %}
-          <h2>Winner</h2>
-          {{ winners[0] }}
+        <h2>Winner</h2>
+        {{ results.winners[0] }}
       {% endif %}
 
       <h2>Totals</h2>
-      {{ counts | series_table }}
+      {{ results.counts | series_table }}
 
-      {% for warning in warnings %}
-          {% if loop.first %}
-              <h2>Warnings</h2>
-          {% endif %}
-          {{warning}}
+      {% for warning in results.warnings %}
+        {% if loop.first %}
+          <h2>Warnings</h2>
+        {% endif %}
+        {{warning}}
       {% endfor %}
     </div>
+    {% if github_repo_url %}
+      <a class="github-fork-ribbon" href="{{ github_repo_url }}" data-ribbon="Fork me on GitHub" title="Fork me on GitHub">Fork me on GitHub</a>
+    {% endif %}
   </body>
 </html>

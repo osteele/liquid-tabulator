@@ -37,12 +37,15 @@ env.filters['series_table'] = series_table_filter
 with open(os.path.join(os.path.dirname(__file__), './results.html')) as f:
     template = env.from_string(f.read())
 
+GITHUB_REPO_URL = os.getenv('GITHUB_REPO_URL')
+
 
 def tabulate(event, context):
     gsheet_key = os.getenv('GOOGLE_SHEET_KEY')
     gsheet_range = os.getenv('GOOGLE_SHEET_RANGE')
     tabulation = tabulator.tabulate(gsheet_key, gsheet_range)
-    body = template.render(tabulation._asdict())
+    body = template.render(
+        results=tabulation, github_repo_url=GITHUB_REPO_URL)
 
     response = {
         "statusCode": 200,
@@ -59,7 +62,8 @@ def main():
     gsheet_key = os.getenv('GOOGLE_SHEET_KEY')
     gsheet_range = os.getenv('GOOGLE_SHEET_RANGE')
     tabulation = tabulator.tabulate(gsheet_key, gsheet_range)
-    print(template.render(tabulation._asdict()))
+    print(template.render(
+        results=tabulation, github_repo_url=GITHUB_REPO_URL))
 
 
 if __name__ == '__main__':
