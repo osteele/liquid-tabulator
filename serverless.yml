@@ -3,6 +3,9 @@ service: liquid-tabulator
 provider:
   name: aws
   runtime: python3.6
+  environment:
+    GOOGLE_SHEET_KEY: ${env:LIQUID_TABULATOR_GSHEET_KEY}
+    GOOGLE_SHEET_RANGE: ${env:LIQUID_TABULATOR_GSHEET_RANGE}
 
 functions:
   tabulate:

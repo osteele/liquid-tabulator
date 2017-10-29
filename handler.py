@@ -1,9 +1,13 @@
+import os
 import json
 
 
 def tabulate(event, context):
+    gsheet_key = os.getenv('GOOGLE_SHEET_KEY')
+    gsheet_range = os.getenv('GOOGLE_SHEET_RANGE')
+
     body = {
-        "message": "Go Serverless v1.0! Your function executed successfully!",
+        "message": "Google sheet key={}; range={}".format(gsheet_key, gsheet_range),
         "input": event
     }
 
