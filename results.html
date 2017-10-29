@@ -1,17 +1,35 @@
-{% if winners|length > 1 %}
-    <h1>Winners (tie)<h1>
-    {{winners.index | join(', ')}}
-{% else %}
-    <h1>Winner</h1>
-    {{ winners[0] }}
-{% endif %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8"/>
+    <title>Poll Results</title>
 
-<h2>Totals</h2>
-{{ counts | series_table }}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    <style>
+      .dataframe.table { max-width: 250px;  }
+    </style>
+  </head>
 
-{% for warning in warnings %}
-    {% if loop.first %}
-        <h2>Warnings</h2>
-    {% endif %}
-    {{warning}}
-{% endfor %}
+  <body>
+    <div class="container">
+      <h1>Results</h1>
+      {% if winners|length > 1 %}
+          <h2>Winners (tie)</h2>
+          {{ winners.index | join(', ') }}
+      {% else %}
+          <h2>Winner</h2>
+          {{ winners[0] }}
+      {% endif %}
+
+      <h2>Totals</h2>
+      {{ counts | series_table }}
+
+      {% for warning in warnings %}
+          {% if loop.first %}
+              <h2>Warnings</h2>
+          {% endif %}
+          {{warning}}
+      {% endfor %}
+    </div>
+  </body>
+</html>

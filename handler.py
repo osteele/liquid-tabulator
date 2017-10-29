@@ -28,7 +28,7 @@ def dataframe_table_filter(df, **kwargs):
 
 
 def series_table_filter(series):
-    return dataframe_table_filter(pd.DataFrame(series))
+    return dataframe_table_filter(pd.DataFrame(series), classes=['table', 'table-sm'])
 
 
 env = Environment()
