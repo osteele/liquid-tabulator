@@ -8,7 +8,6 @@ import sys
 from collections import namedtuple
 
 import pandas as pd
-from docopt import docopt
 
 Tabulation = namedtuple('Tabulation', ['counts', 'winners', 'warnings'])
 
@@ -69,6 +68,7 @@ def report_tabulation(tabulation):
 
 
 if __name__ == '__main__':
+    from docopt import docopt
     args = docopt(__doc__)
     tabulation = tabulate(args['SPREADSHEET_KEY'], args['SPREADSHEET_RANGE'])
     report_tabulation(tabulation)
