@@ -34,25 +34,8 @@ def series_table_filter(series):
 env = Environment()
 env.filters['series_table'] = series_table_filter
 
-template = env.from_string('''
-{% if winners|length > 1 %}
-    <h1>Winners (tie)<h1>
-    {{winners.index | join(', ')}}
-{% else %}
-    <h1>Winner</h1>
-    {{ winners[0] }}
-{% endif %}
-
-<h2>Totals</h2>
-{{ counts | series_table }}
-
-{% for warning in warnings %}
-    {% if loop.first %}
-        <h2>Warnings</h2>
-    {% endif %}
-    {{warning}}
-{% endfor %}
-''')
+with open(os.path.join(os.path.dirname(__file__), './results.html')) as f:
+    template = env.from_string(f.read())
 
 
 def tabulate(event, context):

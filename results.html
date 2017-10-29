@@ -1,0 +1,17 @@
+{% if winners|length > 1 %}
+    <h1>Winners (tie)<h1>
+    {{winners.index | join(', ')}}
+{% else %}
+    <h1>Winner</h1>
+    {{ winners[0] }}
+{% endif %}
+
+<h2>Totals</h2>
+{{ counts | series_table }}
+
+{% for warning in warnings %}
+    {% if loop.first %}
+        <h2>Warnings</h2>
+    {% endif %}
+    {{warning}}
+{% endfor %}
