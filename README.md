@@ -18,9 +18,9 @@ Set environment variables:
 * `LIQUID_TABULATOR_GSHEET_KEY` is the doc key of the Published Google Sheet.
 * `LIQUID_TABULATOR_GSHEET_RANGE` is the cell range for vote tabulation.
 
-
 ```bash
 $ yarn install serverless  # or npm install -g serverless
+$ yarn install             # or npm install
 ```
 
 ## Deployment
@@ -32,7 +32,7 @@ $ serverless deploy -v
 Edit/deploy/run:
 
 ```bash
-$ serverless deploy function -f tabulate
+$ serverless deploy -v
 $ serverless invoke -f tabulate -l
 ```
 
