@@ -6,6 +6,7 @@ provider:
   environment:
     GOOGLE_SHEET_KEY: ${env:LIQUID_TABULATOR_GSHEET_KEY}
     GOOGLE_SHEET_RANGE: ${env:LIQUID_TABULATOR_GSHEET_RANGE}
+    GITHUB_REPO_URL: https://github.com/osteele/liquid-tabulator
 
 functions:
   tabulate:
