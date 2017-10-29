@@ -1,4 +1,3 @@
-import io
 import os
 import json
 
@@ -7,17 +6,60 @@ try:
 except ImportError:
     pass
 
+from jinja2 import Environment, Template
+import pandas as pd
+
 import tabulator
+
+
+def dataframe_table_filter(df, **kwargs):
+    """A Jinja filter that turns a Pandas DataFrame into HTML.
+
+    Keyword arguments are passed to DataFrame.to_html.
+    The Pandas display option is dynamically set to allow full-width text in the cells.
+    """
+    pd_display_max_colwidth_key = 'display.max_colwidth'
+    saved_max_colwidth = pd.get_option(pd_display_max_colwidth_key)
+    try:
+        pd.set_option(pd_display_max_colwidth_key, -1)
+        return df.to_html(**kwargs)
+    finally:
+        pd.set_option(pd_display_max_colwidth_key, saved_max_colwidth)
+
+
+def series_table_filter(series):
+    return dataframe_table_filter(pd.DataFrame(series))
+
+
+env = Environment()
+env.filters['series_table'] = series_table_filter
+
+template = env.from_string('''
+{% if winners|length > 1 %}
+    <h1>Winners (tie)<h1>
+    {{winners.index | join(', ')}}
+{% else %}
+    <h1>Winner</h1>
+    {{ winners[0] }}
+{% endif %}
+
+<h2>Totals</h2>
+{{ counts | series_table }}
+
+{% for warning in warnings %}
+    {% if loop.first %}
+        <h2>Warnings</h2>
+    {% endif %}
+    {{warning}}
+{% endfor %}
+''')
 
 
 def tabulate(event, context):
     gsheet_key = os.getenv('GOOGLE_SHEET_KEY')
     gsheet_range = os.getenv('GOOGLE_SHEET_RANGE')
     tabulation = tabulator.tabulate(gsheet_key, gsheet_range)
-
-    with io.StringIO() as output:
-        write_tabulation_html(tabulation, output)
-        body = output.getvalue()
+    body = template.render(tabulation._asdict())
 
     response = {
         "statusCode": 200,
@@ -30,25 +72,11 @@ def tabulate(event, context):
     return response
 
 
-def write_tabulation_html(tabulation, output):
-    counts, warnings, winners = tabulation.counts, tabulation.warnings, tabulation.winners
-    lines = []
-    output.write('Totals:\n{}\n'.format(counts.to_string()))
-    if len(winners) > 1:
-        output.write('Winners (tie): {}'.format(', '.join(winners.index)))
-    else:
-        output.write('Winner: {}'.format(winners[0]))
-    for warning in tabulation.warnings:
-        output.write(warning + "\n")
-
-
 def main():
     gsheet_key = os.getenv('GOOGLE_SHEET_KEY')
     gsheet_range = os.getenv('GOOGLE_SHEET_RANGE')
     tabulation = tabulator.tabulate(gsheet_key, gsheet_range)
-    with io.StringIO() as output:
-        write_tabulation_html(tabulation, output)
-        print(output.getvalue())
+    print(template.render(tabulation._asdict()))
 
 
 if __name__ == '__main__':
