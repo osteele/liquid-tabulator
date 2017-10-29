@@ -1,6 +1,11 @@
 import os
 import json
 
+try:
+    import unzip_requirements
+except ImportError:
+    pass
+
 
 def tabulate(event, context):
     gsheet_key = os.getenv('GOOGLE_SHEET_KEY')

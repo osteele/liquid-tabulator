@@ -9,6 +9,8 @@ It has an appropriate investment in security and privacy (i.e., none).
 
 Install yarn. (Or npm if you must.)
 
+Install Docker.
+
 Follow the instructions at <https://docs.serverless.com> to credential a cloud provider.
 
 Set environment variables:

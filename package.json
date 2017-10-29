@@ -1,0 +1,12 @@
+{
+  "name": "liquid-tabulator",
+  "version": "0.0.2",
+  "description": "Liquid Democracy Google Sheet vote tabulator",
+  "main": "index.js",
+  "repository": "https://github.com/osteele/liquid-tabulator",
+  "author": "Oliver Steele <steele@osteele.com>",
+  "license": "MIT",
+  "dependencies": {
+    "serverless-python-requirements": "^3.0.9"
+  }
+}

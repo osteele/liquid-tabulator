@@ -10,3 +10,19 @@ provider:
 functions:
   tabulate:
     handler: handler.tabulate
+
+package:
+  exclude:
+    - .git/**
+    - node_modules/**
+
+plugins:
+  - serverless-python-requirements
+
+custom:
+  pythonRequirements:
+    # dockerImage: <image name>:tag
+    dockerizePip: true
+    zip: true
+    noDeploy:
+      - docopt
