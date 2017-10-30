@@ -26,6 +26,9 @@ def tabulate(spreadsheet_key, spreadsheet_range):
     if dups:
         warnings.append("{} voted twice".format(', '.join(dups)))
 
+    # Remove voters who neither voted nor delegated
+    df = df.loc[~df['Vote'].isnull() | ~df['Delegate'].isnull()]
+
     # Fill in missing votes by delegates' votes, or delegates' delegates' votes, etc.
     df = fixed_point(follow_delegates, df)
 
