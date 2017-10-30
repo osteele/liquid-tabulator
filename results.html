@@ -2,25 +2,27 @@
 <html>
   <head>
     <meta charset="UTF-8"/>
-    <title>Poll Results</title>
+    <title>{{ title }}</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-fork-ribbon-css/0.2.0/gh-fork-ribbon.min.css" />
     <style>
-      .dataframe.table { max-width: 250px;  }
+      .dataframe.table { max-width: 350px;  }
     </style>
   </head>
 
   <body>
     <div class="container">
-      <h1>Results</h1>
-      {% if results.winners | length > 1 %}
-        <h2>Winners (tie)</h2>
-        {{ results.winners.index | join(', ') }}
-      {% else %}
-        <h2>Winner</h2>
-        {{ results.winners[0] }}
-      {% endif %}
+      <h1>{{ title }}</h1>
+      <div class="jumbotron">
+        {% if results.winners | length > 1 %}
+          <h2>Winners (tie)</h2>
+          {{ results.winners.index | join(', ') }}
+        {% else %}
+          <h2>Winner</h2>
+          {{ results.winners[0] }}
+        {% endif %}
+      </div>
 
       <h2>Totals</h2>
       {{ results.counts | series_table }}

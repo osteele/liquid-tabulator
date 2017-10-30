@@ -45,7 +45,7 @@ def tabulate(event, context):
     gsheet_range = os.getenv('GOOGLE_SHEET_RANGE')
     tabulation = tabulator.tabulate(gsheet_key, gsheet_range)
     body = template.render(
-        results=tabulation, github_repo_url=GITHUB_REPO_URL)
+        results=tabulation, github_repo_url=GITHUB_REPO_URL, title='Poll Results')
 
     response = {
         "statusCode": 200,
@@ -58,13 +58,13 @@ def tabulate(event, context):
     return response
 
 
-def main():
+def test():
     gsheet_key = os.getenv('GOOGLE_SHEET_KEY')
     gsheet_range = os.getenv('GOOGLE_SHEET_RANGE')
     tabulation = tabulator.tabulate(gsheet_key, gsheet_range)
     print(template.render(
-        results=tabulation, github_repo_url=GITHUB_REPO_URL))
+        results=tabulation, github_repo_url=GITHUB_REPO_URL, title='Poll Results'))
 
 
 if __name__ == '__main__':
-    main()
+    test()
