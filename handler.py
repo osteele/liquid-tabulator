@@ -41,30 +41,22 @@ GITHUB_REPO_URL = os.getenv('GITHUB_REPO_URL')
 
 
 def tabulate(event, context):
-    gsheet_key = os.getenv('GOOGLE_SHEET_KEY')
-    gsheet_range = os.getenv('GOOGLE_SHEET_RANGE')
-    tabulation = tabulator.tabulate(gsheet_key, gsheet_range)
-    body = template.render(
-        results=tabulation, github_repo_url=GITHUB_REPO_URL, title='Poll Results')
-
-    response = {
+    return {
         "statusCode": 200,
         "headers": {
             "content-type": "text/html"
         },
-        "body": body
+        "body": tabulation_html()
     }
 
-    return response
 
-
-def test():
+def tabulation_html():
     gsheet_key = os.getenv('GOOGLE_SHEET_KEY')
     gsheet_range = os.getenv('GOOGLE_SHEET_RANGE')
     tabulation = tabulator.tabulate(gsheet_key, gsheet_range)
-    print(template.render(
-        results=tabulation, github_repo_url=GITHUB_REPO_URL, title='Poll Results'))
+    return template.render(
+        results=tabulation, github_repo_url=GITHUB_REPO_URL, title='Poll Results')
 
 
 if __name__ == '__main__':
-    test()
+    print(tabulation_html())
